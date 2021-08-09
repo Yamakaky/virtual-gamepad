@@ -4,11 +4,13 @@ mod os;
 
 use anyhow::Result;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum GamepadType {
     Xbox360,
     DS4,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Key {
     A,
     B,
@@ -27,6 +29,7 @@ pub enum Key {
     R3,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Axis {
     ZL,
     ZR,

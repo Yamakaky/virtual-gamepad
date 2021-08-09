@@ -7,7 +7,7 @@ edition = "2018"
 anyhow = "1.0"
 
 [target.'cfg(target_os = "linux")'.dependencies]
-evdev = { version = "0.11", path = "../evdev" }
+evdev = { git = "https://github.com/Yamakaky/evdev", branch = "fixes" }
 
 [target.windows.dependencies]
 vigem-client = "0.1"

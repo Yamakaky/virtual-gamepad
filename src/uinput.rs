@@ -10,10 +10,10 @@ pub struct VirtualGamepad {
 }
 
 impl VirtualGamepad {
-    pub fn new(name: &str) -> Result<Self> {
+    pub fn new(_name: &str) -> Result<Self> {
         let mut dev = VirtualDeviceBuilder::new()?
-            .name(name)
-            .input_id(InputId::new(BusType::BUS_USB, 0x054c, 0x09cc, 2));
+            .name("Sony Computer Entertainment Wireless Controller")
+            .input_id(InputId::new(BusType::BUS_USB, 0x054c, 0x05c4, 0x0111));
         for axis in AXES {
             dev = dev.with_absolute_axes(*axis, i16::MIN as i32, i16::MAX as i32)?;
         }
@@ -43,7 +43,7 @@ impl Backend for VirtualGamepad {
             crate::Key::A => evdev::Key::BTN_SOUTH,
             crate::Key::B => evdev::Key::BTN_EAST,
             crate::Key::X => evdev::Key::BTN_WEST,
-            crate::Key::Y => evdev::Key::BTN_EAST,
+            crate::Key::Y => evdev::Key::BTN_NORTH,
             crate::Key::Up => evdev::Key::BTN_DPAD_UP,
             crate::Key::Down => evdev::Key::BTN_DPAD_DOWN,
             crate::Key::Left => evdev::Key::BTN_DPAD_LEFT,

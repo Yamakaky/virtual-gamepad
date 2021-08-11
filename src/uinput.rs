@@ -10,9 +10,9 @@ pub struct VirtualGamepad {
 }
 
 impl VirtualGamepad {
-    pub fn new(_name: &str) -> Result<Self> {
+    pub fn new(name: &str) -> Result<Self> {
         let mut dev = VirtualDeviceBuilder::new()?
-            .name("Sony Computer Entertainment Wireless Controller")
+            .name(name)
             .input_id(InputId::new(BusType::BUS_USB, 0x054c, 0x05c4, 0x0111));
         for axis in AXES {
             dev = dev.with_absolute_axes(*axis, i16::MIN as i32, i16::MAX as i32)?;

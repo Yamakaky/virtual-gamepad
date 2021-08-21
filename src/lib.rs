@@ -2,7 +2,7 @@
 #[cfg_attr(windows, path = "vigem.rs")]
 mod os;
 
-use anyhow::Result;
+use anyhow::{bail, Result};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum GamepadType {
@@ -45,6 +45,21 @@ pub trait Backend {
     fn push(&mut self) -> Result<()>;
 }
 
+struct NullBackend;
+impl Backend for NullBackend {
+    fn key(&mut self, _key: Key, _pressed: bool) -> Result<()> {
+        bail!("unsupported OS")
+    }
+
+    fn axis(&mut self, _axis: Axis, _value: f64) -> Result<()> {
+        bail!("unsupported OS")
+    }
+
+    fn push(&mut self) -> Result<()> {
+        bail!("unsupported OS")
+    }
+}
+
 #[allow(unused_variables)]
 pub fn new(g_type: GamepadType) -> Result<impl Backend> {
     #[cfg(windows)]
@@ -59,6 +74,8 @@ pub fn new(g_type: GamepadType) -> Result<impl Backend> {
 
     #[cfg(not(any(windows, target_os = "linux")))]
     {
-        anyhow::bail!("not supported on this platform")
+        bail!("not supported on this platform");
+        #[allow(unreachable_code)]
+        Ok(NullBackend)
     }
 }

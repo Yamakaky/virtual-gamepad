@@ -2,6 +2,11 @@
 #[cfg_attr(windows, path = "vigem.rs")]
 mod os;
 
+#[cfg(target_os = "macos")]
+mod os {}
+
+use os::*;
+
 use anyhow::Result;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -45,4 +50,20 @@ pub trait Backend {
     fn push(&mut self) -> Result<()>;
 }
 
-pub use os::*;
+#[allow(unused_variables)]
+pub fn new(g_type: GamepadType) -> Result<impl Backend> {
+    #[cfg(windows)]
+    {
+        VirtualGamepad::new(g_type)
+    }
+
+    #[cfg(target_os = "linux")]
+    {
+        VirtualGamepad::new(g_type)
+    }
+
+    #[cfg(not(any(windows, target_os = "linux")))]
+    {
+        anyhow::bail!("not supported on this platform")
+    }
+}

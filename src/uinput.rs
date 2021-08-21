@@ -2,7 +2,7 @@ use anyhow::Result;
 use evdev::uinput::*;
 use evdev::*;
 
-use crate::Backend;
+use crate::{Backend, GamepadType};
 
 pub struct VirtualGamepad {
     dev: VirtualDevice,
@@ -10,7 +10,11 @@ pub struct VirtualGamepad {
 }
 
 impl VirtualGamepad {
-    pub fn new(name: &str) -> Result<Self> {
+    pub fn new(g_type: GamepadType) -> Result<Self> {
+        let name = match g_type {
+            GamepadType::Xbox360 => todo!(),
+            GamepadType::DS4 => "Sony Interactive Entertainment Wireless Controller",
+        };
         let mut dev = VirtualDeviceBuilder::new()?
             .name(name)
             .input_id(InputId::new(BusType::BUS_USB, 0x054c, 0x05c4, 0x0111));
@@ -22,10 +26,6 @@ impl VirtualGamepad {
             dev,
             queue: Vec::new(),
         })
-    }
-
-    pub fn dev(&mut self) -> &mut VirtualDevice {
-        &mut self.dev
     }
 
     fn keys() -> AttributeSet<evdev::Key> {

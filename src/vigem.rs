@@ -1,4 +1,4 @@
-use crate::{Axis, Backend, Key};
+use crate::*;
 use anyhow::Result;
 use vigem_client::*;
 
@@ -8,13 +8,15 @@ pub struct VirtualGamepad {
 }
 
 impl VirtualGamepad {
-    pub fn new() -> Result<Self> {
+    pub fn new(g_type: GamepadType) -> Result<Self> {
+        assert_eq!(g_type, GamepadType::DS4);
+
         // Connect to the ViGEmBus driver
-        let client = vigem_client::Client::connect()?;
+        let client = Client::connect()?;
 
         // Create the virtual controller target
         let id = vigem_client::TargetId::XBOX360_WIRED;
-        let mut target = vigem_client::Xbox360Wired::new(client, id);
+        let mut target = Xbox360Wired::new(client, id);
 
         // Plugin the virtual controller
         target.plugin()?;

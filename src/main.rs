@@ -1,8 +1,9 @@
+use std::time::Duration;
+
 use virtual_gamepad::{Backend, Key};
 
 fn main() -> anyhow::Result<()> {
-    let mut dev =
-        virtual_gamepad::VirtualGamepad::new("Sony Interactive Entertainment Wireless Controller")?;
+    let mut dev = virtual_gamepad::new(virtual_gamepad::GamepadType::DS4)?;
 
     let mut x = 1.;
     loop {
@@ -10,9 +11,9 @@ fn main() -> anyhow::Result<()> {
         //dev.axis(virtual_gamepad::Axis::Ly, x)?;
         dev.key(Key::A, true)?;
         dev.push()?;
-        std::thread::sleep_ms(1000);
+        std::thread::sleep(Duration::from_secs(1));
         dev.key(Key::A, false)?;
         dev.push()?;
-        std::thread::sleep_ms(1000);
+        std::thread::sleep(Duration::from_secs(1));
     }
 }

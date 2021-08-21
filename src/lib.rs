@@ -1,3 +1,4 @@
+#[cfg(any(target_os = "linux", windows))]
 #[cfg_attr(target_os = "linux", path = "uinput.rs")]
 #[cfg_attr(windows, path = "vigem.rs")]
 mod os;
